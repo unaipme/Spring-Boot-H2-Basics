@@ -41,6 +41,11 @@ public class PersonaRest {
 		return repo.findOne(id);
 	}
 	
+	@GetMapping("/{id}/group")
+	public Grupo getGroup(@PathVariable Integer id) {
+		return repo.findOne(id).getGroup();
+	}
+	
 	@PostMapping(params = {"firstName", "lastName", "birthday"})
 	public String create(@RequestParam(value="firstName") String firstName,
 						@RequestParam(value="lastName") String lastName,

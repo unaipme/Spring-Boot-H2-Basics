@@ -17,7 +17,7 @@ public class Grupo {
 	@GeneratedValue
 	private Integer id;
 	private @Column(nullable=false, name="groupName") String name;
-	@OneToMany
+	@OneToMany(mappedBy="group")
 	private List<Persona> members;
 	
 	protected Grupo() {}

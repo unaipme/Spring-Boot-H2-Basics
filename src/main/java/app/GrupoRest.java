@@ -43,9 +43,9 @@ public class GrupoRest {
 	public String addMember(@RequestParam(value="gid") Integer gid,
 							@RequestParam(value="pid") Integer pid) {
 		try {
-			Grupo g = gRepo.findOne(gid);
-			g.getMembers().add(pRepo.findOne(pid));
-			gRepo.save(g);
+			Persona p = pRepo.findOne(pid);
+			p.setGroup(gRepo.findOne(gid));
+			pRepo.save(p);			
 			return "Everything OK!";
 		} catch (Exception e) {
 			return e.getMessage();
