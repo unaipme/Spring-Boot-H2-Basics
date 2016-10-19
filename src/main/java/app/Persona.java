@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -17,7 +17,8 @@ public class Persona {
 	private @Id @GeneratedValue Integer id;
 	private @Column(nullable=false) String firstName;
 	private @Column(nullable=false) String lastName;
-	private @Column(nullable=false) LocalDate birthday;
+	private @Column(nullable=false) @JsonIgnore LocalDate birthday;
+	private @ManyToOne(targetEntity=Grupo.class) @JsonIgnore Grupo group;
 	
 	private int age;
 	
@@ -53,7 +54,6 @@ public class Persona {
 		this.lastName = lastName;
 	}
 	
-	@JsonIgnore
 	public LocalDate getBirthday() {
 		return birthday;
 	}
@@ -69,6 +69,14 @@ public class Persona {
 	
 	public int getAge() {
 		return Period.between(birthday, LocalDate.now()).getYears();
+	}
+
+	public Grupo getGroup() {
+		return group;
+	}
+
+	public void setGroup(Grupo group) {
+		this.group = group;
 	}
 	
 }
