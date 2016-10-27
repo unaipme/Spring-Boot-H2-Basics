@@ -217,6 +217,54 @@ public class Test1 {
 			
 	}
 	
+	@Test
+	public void checkNonExistingData() throws Exception {
+		mvc.perform(put(String.format("/groups/%d", 212121))
+				.param("name", "Mockname"))
+			.andExpect(status().isNotFound());
+		
+		mvc.perform(put(String.format("/people/%d", 252525))
+				.param("lastName", "Mockname"))
+			.andExpect(status().isNotFound());
+		
+		mvc.perform(put("/groups")
+				.param("pid", String.valueOf(54545)))
+			.andExpect(status().isNotFound());
+		
+		MvcResult result = mvc.perform(post("/people")
+				.param("firstName", p.getFirstName())
+				.param("lastName", p.getLastName())
+				.param("birthday", p.getBirthday().toString()))
+			.andExpect(status().isCreated())
+			.andExpect(jsonPath("$.firstName", is(p.getFirstName())))
+			.andExpect(jsonPath("$.lastName", is(p.getLastName())))
+			.andReturn();
+		
+		int id = getIdFromURL(result.getResponse().getRedirectedUrl());
+		
+		mvc.perform(put("/groups")
+				.param("pid", String.valueOf(id))
+				.param("gid", String.valueOf(212121)))
+			.andExpect(status().isNotFound());
+		
+		mvc.perform(delete("/groups")
+				.param("id", String.valueOf(512121)))
+			.andExpect(status().isNotFound());
+		
+		mvc.perform(delete("/people")
+				.param("id", String.valueOf(212121)))
+			.andExpect(status().isNotFound());
+		
+		mvc.perform(get(String.format("/groups/%d", 515151)))
+			.andExpect(status().isNotFound());
+		
+		mvc.perform(get(String.format("/people/%d", 212121)))
+			.andExpect(status().isNotFound());
+		
+		mvc.perform(get(String.format("/people/%d/group", id)))
+		.andExpect(status().isNotFound());
+	}
+	
 	private int getIdFromURL(String url) {
 		String [] p = url.split("/");
 		return Integer.valueOf(p[p.length - 1]);

@@ -73,7 +73,9 @@ public class PersonRestAPI {
 			if (p.getGroup() == null) {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			} else {
-				return ResponseEntity.ok(p.getGroup());
+				HttpHeaders h = new HttpHeaders();
+				h.setLocation(URI.create(String.format("/groups/%d", p.getGroup().getId())));
+				return new ResponseEntity<>(p.getGroup(), h, HttpStatus.OK);
 			}
 		}
 	}
