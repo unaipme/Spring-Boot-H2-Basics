@@ -1,4 +1,4 @@
-package app;
+package com.unai.app.model;
 
 import java.util.ArrayList;
 import java.util.List;

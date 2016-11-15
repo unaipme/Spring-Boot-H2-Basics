@@ -1,4 +1,4 @@
-package app;
+package com.unai.app.model;
 
 import java.time.LocalDate;
 import java.time.Period;

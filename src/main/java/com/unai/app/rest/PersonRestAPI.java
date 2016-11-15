@@ -1,4 +1,4 @@
-package app;
+package com.unai.app.rest;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.unai.app.model.Group;
+import com.unai.app.model.Person;
+import com.unai.app.repo.PersonRepo;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

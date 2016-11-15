@@ -41,6 +41,20 @@
 	    <artifactId>springfox-swagger-ui</artifactId>
 	    <version>2.6.0</version>
 	</dependency>
+	<dependency>
+		<groupId>io.jsonwebtoken</groupId>
+		<artifactId>jjwt</artifactId>
+		<version>0.6.0</version>
+	</dependency>
+	<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-configuration-processor</artifactId>
+		<optional>true</optional>
+	</dependency>
   </dependencies>
   
   <build>
@@ -58,6 +72,7 @@
 				</configuration>
 			</plugin>
         </plugins>
+        <finalName>PruebaJPA</finalName>
     </build>
     
     <repositories>
@@ -65,6 +80,14 @@
 	  		<id>spring-releases</id>
 	  		<url>https://repo.spring.io/libs-release</url>
 	  	</repository>
+	  	<repository>
+	        <id>spring-milestones</id>
+	        <name>Spring Milestones</name>
+	        <url>https://repo.spring.io/libs-milestone</url>
+	        <snapshots>
+	            <enabled>false</enabled>
+	        </snapshots>
+	    </repository>
 	  </repositories>
 	  <pluginRepositories>
 	  	<pluginRepository>

@@ -29,6 +29,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.unai.app.Application;
+import com.unai.app.model.Group;
+import com.unai.app.model.Person;
+import com.unai.app.rest.PersonRestAPI;
+
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes=Application.class)
