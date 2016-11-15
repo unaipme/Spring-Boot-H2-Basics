@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -161,6 +162,24 @@ public class GroupRestAPI {
 			HttpHeaders h = new HttpHeaders();
 			h.setLocation(URI.create(String.format("/groups/%d", g.getId())));
 			return new ResponseEntity<>(g, h, HttpStatus.CREATED);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping(consumes = {"application/json"})
+	@ApiOperation(value="Creates a new group, using a JSON based request body instead of regular POST parameters")
+	@ApiResponses(value={
+			@ApiResponse(code=204, message="The group was created successfully."),
+			@ApiResponse(code=500, message="An error occurred in the server.")
+	})
+	public ResponseEntity<Group> create(@RequestBody Group group) {
+		try {
+			gRepo.save(group);
+			HttpHeaders h = new HttpHeaders();
+			h.setLocation(URI.create(String.format("/groups/%d", group.getId())));
+			return new ResponseEntity<>(group, h, HttpStatus.CREATED);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

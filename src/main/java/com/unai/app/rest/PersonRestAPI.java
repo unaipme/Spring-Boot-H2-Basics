@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -87,7 +90,6 @@ public class PersonRestAPI {
 	@PostMapping(params = {"firstName", "lastName", "birthday"})
 	@ApiOperation(value="Creates a new person in the database.")
 	@ApiResponses(value = {
-			@ApiResponse(code=200, message="OK"),
 			@ApiResponse(code=201, message="The person has been successfully created."),
 			@ApiResponse(code=500, message="An error occurred in the server.")
 	})
@@ -100,6 +102,24 @@ public class PersonRestAPI {
 			HttpHeaders h = new HttpHeaders();
 			h.setLocation(URI.create(String.format("/people/%d", p.getId())));
 			return new ResponseEntity<>(p, h, HttpStatus.CREATED);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping(consumes = {"application/json"})
+	@ApiOperation(value="Creates a new person in the database, this time using a JSON based request body instead of regular POST parameters.")
+	@ApiResponses(value = {
+			@ApiResponse(code=201, message="The person has been successfully created."),
+			@ApiResponse(code=500, message="An error occurred in the server.")
+	})
+	public ResponseEntity<?> create(@RequestBody Person person) {
+		try {
+			repo.save(person);
+			HttpHeaders h = new HttpHeaders();
+			h.setLocation(URI.create(String.format("/people/%d", person.getId())));
+			return new ResponseEntity<>(person, h, HttpStatus.CREATED);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

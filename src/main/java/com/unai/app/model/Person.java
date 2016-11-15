@@ -9,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -25,13 +27,14 @@ public class Person {
 	@Column(nullable=false, name="last_name")
 	private String lastName;
 	
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(nullable=false) @JsonIgnore
 	private LocalDate birthday;
 	
 	@ManyToOne(targetEntity=Group.class) @JsonIgnore
 	private Group group;
 	
-	@SuppressWarnings("unused")
+	@Transient
 	private int age;
 	
 	protected Person() {}
@@ -76,7 +79,7 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return String.format("%s, %s", lastName, firstName);
+		return String.format("(%d): %s, %s [%s]", id, lastName, firstName, birthday.toString());
 	}
 	
 	public int getAge() {
