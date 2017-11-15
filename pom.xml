@@ -60,13 +60,21 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<target>1.8</target>
-					<source>1.8</source>
-				</configuration>
-			</plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<configuration>
+			<target>1.8</target>
+			<source>1.8</source>
+		</configuration>
+	    </plugin>
+	    <plugin>
+		<groupId>org.codehaus.mojo</groupId>
+		<artifactId>exec-maven-plugin</artifactId>
+		<version>1.6.0</version>
+		<configuration>
+			<mainClass>com.unai.app.Application</mainClass>
+		</configuration>
+	    </plugin>
         </plugins>
         <finalName>PruebaJPA</finalName>
     </build>
